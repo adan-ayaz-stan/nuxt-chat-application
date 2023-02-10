@@ -14,7 +14,11 @@
     "nuxt-icon": "^0.2.11"
   },
   "dependencies": {
+    "@formkit/addons": "^1.0.0-beta.15",
+    "@formkit/icons": "^1.0.0-beta.15",
     "@formkit/nuxt": "^1.0.0-beta.15",
+    "@formkit/themes": "^1.0.0-beta.16-da20c64",
+    "@formkit/vue": "^1.0.0-beta.15",
     "aos": "^2.3.4"
   }
 }
