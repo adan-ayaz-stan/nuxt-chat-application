@@ -1,8 +1,16 @@
 <script setup>
+const supabase = useSupabaseClient();
 const router = useRouter();
-const isSidebarOpen = ref(true);
+const isSidebarOpen = ref(false);
 
 const currentRoute = router.currentRoute.value.path;
+
+async function logout() {
+  const { error } = await supabase.auth.signOut();
+  if (error == null) {
+    navigateTo("/");
+  }
+}
 </script>
 
 <template>
@@ -33,7 +41,7 @@ const currentRoute = router.currentRoute.value.path;
     :style="{ transform: isSidebarOpen ? 'translate(0%)' : 'translate(-100%)' }"
   >
     <div
-      class="h-full px-3 py-4 overflow-y-auto bg-gradient-to-br from-[#0d043e] via-[#080443] to-[#541c38] text-white"
+      class="h-full px-3 py-4 overflow-y-auto bg-gradient-to-t from-[#0d043e] via-[#080443] to-[#541c38] text-white"
     >
       <div class="flex items-center pl-2.5 mb-5 text-white">
         <svg
@@ -62,8 +70,8 @@ const currentRoute = router.currentRoute.value.path;
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            width="32"
-            height="32"
+            width="24"
+            height="24"
             viewBox="0 0 24 24"
           >
             <path
@@ -146,9 +154,9 @@ const currentRoute = router.currentRoute.value.path;
             </a>
           </div>
           <div>
-            <a
-              href="#"
-              class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
+            <div
+              @click="logout"
+              class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer"
             >
               <svg
                 aria-hidden="true"
@@ -164,7 +172,7 @@ const currentRoute = router.currentRoute.value.path;
                 ></path>
               </svg>
               <span class="flex-1 ml-3 whitespace-nowrap">Log out</span>
-            </a>
+            </div>
           </div>
         </div>
       </div>

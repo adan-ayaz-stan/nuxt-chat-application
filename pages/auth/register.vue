@@ -18,8 +18,12 @@ const submitHandler = async (values: { email: string; password: string }) => {
 </script>
 
 <template>
-  <div class="min-h-screen bg-[#2448b1] flex items-center justify-center">
-    <div class="w-11/12 max-w-[25em] p-4 bg-white rounded-xl shadow-xl">
+  <div
+    class="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#0d043e] via-[#080443] to-[#541c38] text-white"
+  >
+    <div
+      class="w-11/12 max-w-[25em] p-4 bg-white bg-opacity-20 backdrop-blur-50 rounded-xl shadow-xl"
+    >
       <FormKit
         type="form"
         id="registration-example"
@@ -39,10 +43,10 @@ const submitHandler = async (values: { email: string; password: string }) => {
           help="What do people call you?"
           validation="required"
           :classes="{
-            label: 'text-gray-800',
+            label: 'text-gray-300',
             input:
-              'w-full p-2 border-2 focus-within:border-blue-500 outline-none rounded',
-            help: 'text-sm  text-gray-600',
+              'w-full p-2 border-2 border-gray-800 bg-gray-800 focus-within:border-blue-500 outline-none rounded',
+            help: 'text-sm text-gray-200',
             message: 'text-[14px] text-red-600',
           }"
         />
@@ -54,10 +58,10 @@ const submitHandler = async (values: { email: string; password: string }) => {
           help="What email should we use?"
           validation="required|email"
           :classes="{
-            label: 'text-gray-800',
+            label: 'text-gray-300',
             input:
-              'w-full p-2 border-2 focus-within:border-blue-500 outline-none rounded',
-            help: 'text-sm  text-gray-600',
+              'w-full p-2 border-2 border-gray-800 bg-gray-800 focus-within:border-blue-500 outline-none rounded',
+            help: 'text-sm text-gray-200',
             message: 'text-[14px] text-red-600',
           }"
         />
@@ -73,10 +77,10 @@ const submitHandler = async (values: { email: string; password: string }) => {
             placeholder="Your password"
             help="Choose a password"
             :classes="{
-              label: 'text-gray-800',
+              label: 'text-gray-300',
               input:
-                'w-full p-2 border-2 focus-within:border-blue-500 outline-none rounded',
-              help: 'text-sm  text-gray-600',
+                'w-full p-2 border-2 border-gray-800 bg-gray-800 focus-within:border-blue-500 outline-none rounded',
+              help: 'text-sm text-gray-200',
               message: 'text-[14px] text-red-600',
             }"
           />
@@ -87,9 +91,13 @@ const submitHandler = async (values: { email: string; password: string }) => {
           label="Register"
           :classes="{
             outer:
-              'w-fit px-4 py-2 mx-auto text-white font-semibold bg-blue-500 rounded',
+              'w-fit px-4 py-2 mx-auto text-white font-semibold bg-gray-900 rounded',
           }"
         />
+
+        <NuxtLink to="/auth/login" class="text-sm text-center underline my-2"
+          >Already have an account?</NuxtLink
+        >
       </FormKit>
       <div v-if="submitted">
         <h2>Sign up successful!</h2>
