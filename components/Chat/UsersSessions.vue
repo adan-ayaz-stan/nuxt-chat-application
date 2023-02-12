@@ -19,17 +19,60 @@ function openChatWindowForSpecificUser(userID) {
 function closeChatWindow() {
   selectedUser.value = "";
 }
+
+function navigateBack() {
+  window.history.back();
+}
 </script>
 
 <template>
   <div class="flex flex-row h-full rounded-l-[1.3em]">
     <!-- CHAT SELECTION PORTION -->
     <div class="max-w-full md:max-w-sm h-full md:border-r-2">
-      <h1
-        class="pt-4 pb-2 text-xl text-black text-center font-medium font-['Montserrat']"
-      >
-        Latest Chats
-      </h1>
+      <div class="flex flex-row justify-between items-center px-4 pt-3 pb-1">
+        <!-- Back Icon -->
+        <div
+          @click="navigateBack()"
+          title="Navigate Back"
+          class="p-1 text-gray-800 rounded-full hover:bg-gray-200 cursor-pointer"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+          >
+            <path
+              fill="currentColor"
+              d="m12 20l-8-8l8-8l1.425 1.4l-5.6 5.6H20v2H7.825l5.6 5.6Z"
+            />
+          </svg>
+        </div>
+        <!-- Heading -->
+        <h1
+          class="text-xl text-black text-center font-medium font-['Montserrat']"
+        >
+          Latest Chats
+        </h1>
+
+        <!-- Refresh Chats Icon -->
+        <div
+          title="Refresh"
+          class="p-1 text-gray-800 rounded-full hover:bg-gray-200 cursor-pointer"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+          >
+            <path
+              fill="currentColor"
+              d="M12 20q-3.35 0-5.675-2.325Q4 15.35 4 12q0-3.35 2.325-5.675Q8.65 4 12 4q1.725 0 3.3.713q1.575.712 2.7 2.037V4h2v7h-7V9h4.2q-.8-1.4-2.187-2.2Q13.625 6 12 6Q9.5 6 7.75 7.75T6 12q0 2.5 1.75 4.25T12 18q1.925 0 3.475-1.1T17.65 14h2.1q-.7 2.65-2.85 4.325Q14.75 20 12 20Z"
+            />
+          </svg>
+        </div>
+      </div>
 
       <div class="p-3 grid grid-cols-1 auto-rows-auto gap-3">
         <!-- Single Component -->
@@ -71,7 +114,7 @@ function closeChatWindow() {
 
     <div
       v-if="selectedUser != ''"
-      class="w-full h-full absolute md:relative top-0 left-0 bg-gray-200 md:block"
+      class="w-full h-full absolute md:relative top-0 left-0 bg-gray-200 md:rounded-r-[1.3em] md:block"
     >
       <ChatWindow :userID="selectedUser" :closeChat="closeChatWindow" />
     </div>

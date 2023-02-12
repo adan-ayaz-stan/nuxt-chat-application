@@ -3,12 +3,11 @@ const supabase = useSupabaseClient();
 
 async function submitHandler(values) {
   console.log(values);
-
 }
 </script>
 
 <template>
-  <div class="bg-gray-900">
+  <div class="bg-gray-900 md:rounded-br-[1.3em]">
     <FormKit
       type="form"
       :form-class="'grid grid-cols-12 auto-rows-auto gap-2 p-2'"
