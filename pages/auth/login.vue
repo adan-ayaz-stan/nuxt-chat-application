@@ -12,20 +12,45 @@ const message = ref("");
 const submitHandler = async (values) => {
   message.value = "";
 
-  const { data, error } = await supabase.auth.signInWithPassword({
+  const signInObject = await supabase.auth.signInWithPassword({
     email: values.email,
     password: values.password,
   });
 
   // Let's pretend this is an ajax request:
-  if (error == null) {
-    submitted.value = true;
-    setTimeout(() => {
-      router.push("/account");
-    }, 1500);
+  if (signInObject.error == null) {
+    const { data, error } = await supabase
+      .from("users")
+      .select("id")
+      .eq("email", values.email);
+
+    if (data.length == 0 || data == null) {
+      const proxyObjectUser = Object.assign(
+        {},
+        signInObject.data.user.user_metadata
+      );
+
+      const { error } = await supabase.from("users").insert({
+        id: signInObject.data.user.id,
+        email: signInObject.data.user.email,
+        name: proxyObjectUser.name,
+      });
+
+      if (error == null) {
+        submitted.value = true;
+        setTimeout(() => {
+          router.push("/account");
+        }, 1500);
+      }
+    } else {
+      submitted.value = true;
+      setTimeout(() => {
+        router.push("/account");
+      }, 1500);
+    }
   }
 
-  if (error) {
+  if (signInObject.error) {
     message.value = "The credidentials do not match (email/password).";
   }
 };

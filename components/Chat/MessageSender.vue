@@ -1,6 +1,9 @@
 <script setup>
-function submitHandler(values) {
+const supabase = useSupabaseClient();
+
+async function submitHandler(values) {
   console.log(values);
+
 }
 </script>
 

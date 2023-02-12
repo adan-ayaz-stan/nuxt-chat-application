@@ -4,13 +4,17 @@ definePageMeta({
 });
 
 const supabase = useSupabaseClient();
-const router = useRouter();
 
 const submitted = ref(false);
-const submitHandler = async (values: { email: string; password: string }) => {
-  const { data, error } = await supabase.auth.signInWithPassword({
+const submitHandler = async (values: { email: string; password: string; name: string; }) => {
+  const { data, error } = await supabase.auth.signUp({
     email: values.email,
     password: values.password,
+    options: {
+      data: {
+        name: values.name
+      }
+    }
   });
   // Let's pretend this is an ajax request:
   submitted.value = true;
