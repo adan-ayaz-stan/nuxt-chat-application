@@ -26,9 +26,7 @@ async function logout() {
       <h5 class="text-xl font-medium text-gray-900 dark:text-white">
         {{ shallowCopyObject.name }}
       </h5>
-      <span class="text-sm text-gray-500 dark:text-gray-400"
-        >Front End Web Developer</span
-      >
+      <span class="text-sm text-gray-500 dark:text-gray-400">Rogue Power</span>
       <div class="flex mt-4 space-x-3 md:mt-6">
         <NuxtLink
           to="/chat"

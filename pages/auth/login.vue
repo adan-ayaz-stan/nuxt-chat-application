@@ -46,19 +46,20 @@ const submitHandler = async (values) => {
         #default="{ value }"
         :config="{ validationVisibility: 'submit' }"
       >
-        <h1 class="text-3xl font-bold text-center">Login</h1>
+        <h1 class="text-3xl font-semibold text-center font-['Montserrat']">
+          Login
+        </h1>
         <hr />
         <FormKit
           type="text"
           name="email"
-          label="Your email"
           placeholder="jane@example.com"
           help="Enter your registered email."
           validation="required|email"
           :classes="{
             label: 'text-gray-300',
             input:
-              'w-full p-2 border-2 border-gray-800 bg-gray-800 focus-within:border-blue-500 outline-none rounded',
+              'w-full p-2 text-sm border-2 border-gray-800 bg-gray-800 focus-within:border-blue-500 outline-none rounded',
             help: 'text-sm text-gray-200',
             message: 'text-[14px] text-red-600',
           }"
@@ -67,14 +68,13 @@ const submitHandler = async (values) => {
           <FormKit
             type="password"
             name="password"
-            label="Password"
             placeholder="Your password"
             help="Enter the password you chose while registering."
             validation="required"
             :classes="{
               label: 'text-gray-300',
               input:
-                'w-full p-2 border-2 border-gray-800 bg-gray-800 focus-within:border-blue-500 outline-none rounded',
+                'w-full p-2 text-sm border-2 border-gray-800 bg-gray-800 focus-within:border-blue-500 outline-none rounded',
               help: 'text-sm text-gray-200',
               message: 'text-[14px] text-red-600',
             }"

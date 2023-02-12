@@ -33,7 +33,9 @@ const submitHandler = async (values: { email: string; password: string }) => {
         #default="{ value }"
         :config="{ validationVisibility: 'submit' }"
       >
-        <h1 class="text-3xl font-bold text-center">Register</h1>
+        <h1 class="text-3xl font-semibold text-center font-['Montserrat']">
+          Register
+        </h1>
         <hr />
         <FormKit
           type="text"
@@ -45,7 +47,7 @@ const submitHandler = async (values: { email: string; password: string }) => {
           :classes="{
             label: 'text-gray-300',
             input:
-              'w-full p-2 border-2 border-gray-800 bg-gray-800 focus-within:border-blue-500 outline-none rounded',
+              'w-full p-2 text-sm border-2 border-gray-800 bg-gray-800 focus-within:border-blue-500 outline-none rounded',
             help: 'text-sm text-gray-200',
             message: 'text-[14px] text-red-600',
           }"
@@ -60,7 +62,7 @@ const submitHandler = async (values: { email: string; password: string }) => {
           :classes="{
             label: 'text-gray-300',
             input:
-              'w-full p-2 border-2 border-gray-800 bg-gray-800 focus-within:border-blue-500 outline-none rounded',
+              'w-full p-2 text-sm border-2 border-gray-800 bg-gray-800 focus-within:border-blue-500 outline-none rounded',
             help: 'text-sm text-gray-200',
             message: 'text-[14px] text-red-600',
           }"
@@ -79,7 +81,7 @@ const submitHandler = async (values: { email: string; password: string }) => {
             :classes="{
               label: 'text-gray-300',
               input:
-                'w-full p-2 border-2 border-gray-800 bg-gray-800 focus-within:border-blue-500 outline-none rounded',
+                'w-full p-2 text-sm border-2 border-gray-800 bg-gray-800 focus-within:border-blue-500 outline-none rounded',
               help: 'text-sm text-gray-200',
               message: 'text-[14px] text-red-600',
             }"

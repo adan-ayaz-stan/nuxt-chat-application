@@ -1,6 +1,6 @@
 <script setup>
 definePageMeta({
-  name: "user-auth",
+  middleware: "user-auth",
 });
 
 const user = useSupabaseUser();
