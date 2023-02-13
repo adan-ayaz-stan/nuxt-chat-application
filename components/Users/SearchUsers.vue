@@ -5,7 +5,8 @@ const supabase = useSupabaseClient();
 const user = useSupabaseUser();
 
 const isModalOpen = ref(false);
-const selectedUser = ref("");
+const selectedUser = ref({ id: "", name: "" });
+const processing = ref(false);
 
 const allUsers = await supabase
   .from("users")
@@ -16,13 +17,77 @@ const { search, results, noResults } = useVueFuse(allUsers.data, {
   keys: ["name"],
 });
 
-function openChatModalForSpecificUser(userID) {
+function openChatModalForSpecificUser(userObject) {
   isModalOpen.value = true;
-  selectedUser.value = userID;
+  selectedUser.value = userObject;
 }
 
-function submitHandler(values) {
-  console.log(values.message);
+async function submitHandlerForMessageSender(values) {
+  processing.value = true;
+
+  const date = new Date().toISOString();
+
+  // Check if message session exists
+  const chatSession = await supabase
+    .from("conversation_sessions")
+    .select("id")
+    .or(`user1_id.eq.${user.value.id}, user2_id.eq.${user.value.id}`)
+    .or(
+      `user1_id.eq.${selectedUser.value.id}, user2_id.eq.${selectedUser.value.id}`
+    );
+
+  // If not, create a new session and add the message to the database
+  if (chatSession.data.length == 0 || chatSession.data == null) {
+    console.log("Creating chat session");
+    // Create session and return it's id
+    const sessionConversation = await supabase
+      .from("conversation_sessions")
+      .insert({
+        updated_at: date,
+        user1_id: user.value.id,
+        user2_id: selectedUser.value.id,
+      })
+      .select("id");
+
+    console.log(sessionConversation);
+    if (sessionConversation.error == null) {
+      // Adding a message when no problem occurs while creating a session
+      console.log("Adding message to session");
+      const { error } = await supabase.from("messages").insert({
+        session_id: sessionConversation.data[0].id,
+        message: `${values.message}`,
+        sender_id: user.value.id,
+        receiver_id: selectedUser.value.id,
+      });
+    }
+  }
+  // If it does, just add the message to existing messages
+  if (chatSession.data.length != 0 && chatSession.data != null) {
+    console.log("Adding message because session exists.");
+    // Inserting message
+    const { error } = await supabase.from("messages").insert({
+      session_id: chatSession.data[0].id,
+      message: `${values.message}`,
+      sender_id: user.value.id,
+      receiver_id: selectedUser.value.id,
+    });
+
+    // Updating session's updated_at
+    const sessionUpdate = await supabase
+      .from("conversation_sessions")
+      .update({
+        updated_at: date,
+      })
+      .eq("id", chatSession.data[0].id);
+
+    if (sessionUpdate.error == null) {
+      console.log("Session successfully updated.");
+    }
+  }
+
+  // End of function
+  navigateTo("/chat");
+  processing.value = false;
 }
 
 function navigateBack() {
@@ -47,7 +112,7 @@ function navigateBack() {
             class="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600"
           >
             <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
-              {{ selectedUser }}
+              {{ selectedUser.name }}
             </h3>
             <button
               type="button"
@@ -76,7 +141,7 @@ function navigateBack() {
               type="form"
               :actions="false"
               #default="{ value }"
-              @submit="submitHandler"
+              @submit="submitHandlerForMessageSender"
               :config="{ validationVisibility: 'submit' }"
             >
               <FormKit
@@ -100,13 +165,23 @@ function navigateBack() {
               />
 
               <FormKit
+                v-if="!processing"
                 type="submit"
                 label="Send"
+                :disabled="processing"
                 :classes="{
                   outer:
                     'w-fit px-4 py-2 mt-4 mx-auto text-white font-semibold bg-indigo-700 rounded cursor-pointer',
                 }"
               />
+
+              <p
+                v-if="processing"
+                class="mt-4 text-sm text-center text-green-600"
+              >
+                Sending your greeting! You may want to check your latest chat
+                section <NuxtLink to="/chat">here.</NuxtLink>
+              </p>
             </FormKit>
           </div>
         </div>
@@ -204,7 +279,7 @@ function navigateBack() {
         <p>{{ item.name }}</p>
 
         <div
-          @click="openChatModalForSpecificUser(item.name)"
+          @click="openChatModalForSpecificUser(item)"
           class="ml-auto text-gray-400 hover:text-gray-700 cursor-pointer"
         >
           <svg

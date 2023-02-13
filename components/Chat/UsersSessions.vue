@@ -1,4 +1,35 @@
-<script setup>
+<script setup lang="ts">
+import { UserConversationSession } from "~~/types/ConversationSessions";
+
+const supabase = useSupabaseClient();
+const user = useSupabaseUser();
+
+async function getConversationSessions() {
+  // Getting Sessions || This took me a lot of time to get it right, you better be grateful for this
+  const { data, error } = await supabase
+    .from("conversation_sessions")
+    .select(
+      "id, user1_id, user2_id, users AS usersU1:user1_id(name), users AS usersU2:user2_id(name)"
+    );
+
+  const formatData = data?.map((ele: UserConversationSession, ind: number) => {
+    const sessionID = ele.id;
+    const otherUserID =
+      ele.user1_id == user.value?.id ? ele.user2_id : ele.user1_id;
+    const otherUserName =
+      ele.user1_id == user.value?.id
+        ? ele.usersASusersU2.name
+        : ele.usersASusersU1.name;
+
+    return { sessionID, otherUserID, otherUserName };
+  });
+
+  return formatData;
+}
+
+const samplData = await getConversationSessions().then((ele) => ele);
+console.log(samplData);
+
 const isWindowOpen = ref(false);
 const selectedUser = ref("");
 
@@ -11,9 +42,9 @@ const sampleData = [
   },
 ];
 
-function openChatWindowForSpecificUser(userID) {
+function openChatWindowForSpecificUser(userObject) {
   isWindowOpen.value = true;
-  selectedUser.value = userID;
+  selectedUser.value = userObject;
 }
 
 function closeChatWindow() {
@@ -78,15 +109,15 @@ function navigateBack() {
         <!-- Single Component -->
 
         <div
-          v-for="item in sampleData"
-          @click="openChatWindowForSpecificUser(item.name)"
+          v-for="item in samplData"
+          @click="openChatWindowForSpecificUser(item)"
           class="grid grid-cols-5 items-center gap-3 p-4 bg-white text-black rounded-lg cursor-pointer"
         >
           <div
             class="col-span-1 h-full bg-gray-400 border-2 border-black rounded-full"
           ></div>
           <div class="col-span-3 relative flex flex-col gap-1 py-1">
-            <p>{{ item.name }}</p>
+            <p>{{ item.otherUserName }}</p>
             <p class="text-sm truncate text-gray-600">
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum
               iusto repellendus recusandae fugiat, voluptates sequi. Natus at
@@ -116,7 +147,7 @@ function navigateBack() {
       v-if="selectedUser != ''"
       class="w-full h-full absolute md:relative top-0 left-0 bg-gray-200 md:rounded-r-[1.3em] md:block"
     >
-      <ChatWindow :userID="selectedUser" :closeChat="closeChatWindow" />
+      <ChatWindow :userObject="selectedUser" :closeChat="closeChatWindow" />
     </div>
 
     <div

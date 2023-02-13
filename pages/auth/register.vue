@@ -6,18 +6,41 @@ definePageMeta({
 const supabase = useSupabaseClient();
 
 const submitted = ref(false);
-const submitHandler = async (values: { email: string; password: string; name: string; }) => {
+const submitHandler = async (values: {
+  email: string;
+  password: string;
+  name: string;
+}) => {
   const { data, error } = await supabase.auth.signUp({
     email: values.email,
     password: values.password,
     options: {
       data: {
-        name: values.name
-      }
-    }
+        name: values.name,
+      },
+    },
   });
-  // Let's pretend this is an ajax request:
-  submitted.value = true;
+
+  if (error == null) {
+    const checkIfUserExists = await supabase
+      .from("users")
+      .select("email")
+      .eq("email", data.user?.email);
+
+    if (checkIfUserExists.data?.length == 0 || checkIfUserExists.data == null) {
+      const { error } = await supabase.from("users").insert({
+        id: data.user?.id,
+        name: values.name,
+        email: values.email,
+      });
+    } else {
+      console.log("This user already exists in the database.");
+    }
+    // Let's pretend this is an ajax request:
+    submitted.value = true;
+  } else {
+    console.log("An error has occurred while signing up.");
+  }
 };
 </script>
 

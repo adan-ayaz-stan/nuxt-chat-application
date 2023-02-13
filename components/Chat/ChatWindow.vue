@@ -1,5 +1,5 @@
 <script setup>
-const { userID, closeChat } = defineProps(["userID", "closeChat"]);
+const { userObject, closeChat } = defineProps(["userObject", "closeChat"]);
 </script>
 
 <template>
@@ -28,7 +28,7 @@ const { userID, closeChat } = defineProps(["userID", "closeChat"]);
 
       <!-- User Details -->
       <div class="h-8 w-8 bg-gray-400 border-2 border-black rounded-full"></div>
-      <p>{{ userID }}</p>
+      <p>{{ userObject.otherUserName }}</p>
     </div>
 
     <!-- Messages Box -->
