@@ -56,15 +56,18 @@ function navigateBack() {
 </script>
 
 <template>
-  <div class="flex flex-row h-full rounded-l-[1.3em]">
+  <div
+    class="flex flex-row h-full rounded-l-[1.3em] border-gray-300 border-l-4"
+  >
     <!-- CHAT SELECTION PORTION -->
-    <div class="max-w-full md:max-w-sm h-full md:border-r-2">
+    <div class="relative max-w-full md:max-w-sm h-full md:border-r-2">
+      <!-- Top Bar -->
       <div class="flex flex-row justify-between items-center px-4 pt-3 pb-1">
         <!-- Back Icon -->
         <div
           @click="navigateBack()"
           title="Navigate Back"
-          class="p-1 text-gray-800 rounded-full hover:bg-gray-200 cursor-pointer"
+          class="p-1 text-gray-100 rounded-full hover:bg-gray-600 cursor-pointer"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -79,16 +82,14 @@ function navigateBack() {
           </svg>
         </div>
         <!-- Heading -->
-        <h1
-          class="text-xl text-black text-center font-medium font-['Montserrat']"
-        >
+        <h1 class="text-xl text-center font-medium font-['Montserrat']">
           Latest Chats
         </h1>
 
         <!-- Refresh Chats Icon -->
         <div
           title="Refresh"
-          class="p-1 text-gray-800 rounded-full hover:bg-gray-200 cursor-pointer"
+          class="p-1 text-gray-100 rounded-full hover:bg-gray-600 cursor-pointer"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -110,7 +111,7 @@ function navigateBack() {
         <div
           v-for="item in sampleData"
           @click="openChatWindowForSpecificUser(item)"
-          class="grid grid-cols-5 items-center gap-3 p-4 bg-white text-black rounded-lg cursor-pointer"
+          class="h-fit grid grid-cols-5 items-center gap-3 p-4 bg-white text-black rounded-lg cursor-pointer"
         >
           <div
             class="col-span-1 h-full bg-gray-400 border-2 border-black rounded-full"
@@ -144,7 +145,7 @@ function navigateBack() {
 
     <div
       v-if="selectedUser != ''"
-      class="w-full h-full absolute md:relative top-0 left-0 bg-gray-200 md:rounded-r-[1.3em] md:block"
+      class="w-full h-full absolute md:relative top-0 left-0 md:rounded-r-[1.3em] md:block"
     >
       <ChatWindow :userObject="selectedUser" :closeChat="closeChatWindow" />
     </div>
@@ -153,7 +154,7 @@ function navigateBack() {
       v-if="selectedUser == ''"
       class="w-full h-full hidden md:flex flex-col items-center justify-center"
     >
-      <div class="text-gray-800">
+      <div class="text-gray-200">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="64"
@@ -170,7 +171,7 @@ function navigateBack() {
           />
         </svg>
       </div>
-      <h1 class="text-gray-800">Select a user to get started.</h1>
+      <h1 class="text-gray-200">Select a user to get started.</h1>
     </div>
   </div>
 </template>

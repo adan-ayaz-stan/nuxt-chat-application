@@ -11,9 +11,7 @@ definePageMeta({
     <div
       class="h-[95vh] w-[95vw] bg-white bg-opacity-20 border-white border-2 rounded-[1.5em]"
     >
-      <div
-        class="h-full w-[95%] bg-[#ffffff99] ml-auto rounded-[1.3em] shadow-xl"
-      >
+      <div class="h-full w-[95%] ml-auto rounded-[1.3em] shadow-xl">
         <ChatUsersSessions />
       </div>
     </div>
