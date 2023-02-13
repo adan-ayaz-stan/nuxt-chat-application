@@ -4,41 +4,40 @@ import { UserConversationSession } from "~~/types/ConversationSessions";
 const supabase = useSupabaseClient();
 const user = useSupabaseUser();
 
-async function getConversationSessions() {
-  // Getting Sessions || This took me a lot of time to get it right, you better be grateful for this
-  const { data, error } = await supabase
-    .from("conversation_sessions")
-    .select(
-      "id, user1_id, user2_id, users AS usersU1:user1_id(name), users AS usersU2:user2_id(name)"
-    );
+// async function getConversationSessions() {
+//   // Getting Sessions || This took me a lot of time to get it right, you better be grateful for this
+//   const { data, error } = await supabase
+//     .from("conversation_sessions")
+//     .select(
+//       "id, user1_id, user2_id, users AS usersU1:user1_id(name), users AS usersU2:user2_id(name)"
+//     );
 
-  const formatData = data?.map((ele: UserConversationSession, ind: number) => {
-    const sessionID = ele.id;
-    const otherUserID =
-      ele.user1_id == user.value?.id ? ele.user2_id : ele.user1_id;
-    const otherUserName =
-      ele.user1_id == user.value?.id
-        ? ele.usersASusersU2.name
-        : ele.usersASusersU1.name;
+//   const formatData = data?.map((ele: UserConversationSession, ind: number) => {
+//     const sessionID = ele.id;
+//     const otherUserID =
+//       ele.user1_id == user.value?.id ? ele.user2_id : ele.user1_id;
+//     const otherUserName =
+//       ele.user1_id == user.value?.id
+//         ? ele.usersASusersU2.name
+//         : ele.usersASusersU1.name;
 
-    return { sessionID, otherUserID, otherUserName };
-  });
+//     return { sessionID, otherUserID, otherUserName };
+//   });
 
-  return formatData;
-}
+//   return formatData;
+// }
 
-const samplData = await getConversationSessions().then((ele) => ele);
-console.log(samplData);
+// const samplData = await getConversationSessions().then((ele) => ele);
+// console.log(samplData);
 
 const isWindowOpen = ref(false);
 const selectedUser = ref("");
 
 const sampleData = [
   {
-    name: "Camre Pao",
-  },
-  {
-    name: "Joe Rogan",
+    sessionID: "41864323413",
+    otherUserID: "153484646",
+    otherUserName: "Sample Name",
   },
 ];
 
@@ -109,7 +108,7 @@ function navigateBack() {
         <!-- Single Component -->
 
         <div
-          v-for="item in samplData"
+          v-for="item in sampleData"
           @click="openChatWindowForSpecificUser(item)"
           class="grid grid-cols-5 items-center gap-3 p-4 bg-white text-black rounded-lg cursor-pointer"
         >
