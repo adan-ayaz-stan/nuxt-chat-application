@@ -32,9 +32,9 @@ const { userObject, closeChat } = defineProps(["userObject", "closeChat"]);
     </div>
 
     <!-- Messages Box -->
-    <ChatMessagesBox />
+    <ChatMessagesBox :userObject="userObject" />
 
     <!-- Message Sender -->
-    <ChatMessageSender />
+    <ChatMessageSender :userObject="userObject" />
   </div>
 </template>

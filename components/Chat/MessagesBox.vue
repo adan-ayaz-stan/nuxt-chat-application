@@ -1,61 +1,139 @@
 <script setup>
-const sampleData = [
-  {
-    sender: "me",
-    message:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Eos etco mmodi officiis consequatur voluptas, dolorum animi? Autem delenitirepellendus veniam temporibus. Enim earum suscipit, doloribus velit iusto minima eos in.",
-  },
-  {
-    sender: "me",
-    message:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Eos etco mmodi officiis consequatur voluptas, dolorum animi? Autem delenitirepellendus veniam temporibus. Enim earum suscipit, doloribus velit iusto minima eos in.",
-  },
-  {
-    sender: "you",
-    message:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Eos etco mmodi officiis consequatur voluptas, dolorum animi? Autem delenitirepellendus veniam temporibus. Enim earum suscipit, doloribus velit iusto minima eos in.",
-  },
-  {
-    sender: "you",
-    message:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Eos etco mmodi officiis consequatur voluptas, dolorum animi? Autem delenitirepellendus veniam temporibus. Enim earum suscipit, doloribus velit iusto minima eos in.",
-  },
-  {
-    sender: "me",
-    message: "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
-  },
-  {
-    sender: "you",
-    message:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Eos etco mmodi officiis consequatur voluptas, dolorum animi?",
-  },
-  {
-    sender: "you",
-    message:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Eos etco mmodi officiis consequatur voluptas, dolorum animi?",
-  },
-  {
-    sender: "me",
-    message:
-      "Autem delenitirepellendus veniam temporibus. Enim earum suscipit, doloribus velit iusto minima eos in.",
-  },
-];
+const { userObject } = defineProps(["userObject"]);
+
+const supabase = useSupabaseClient();
+const user = useSupabaseUser();
+
+// Chat container ref for scroll positions setting
+const chatContainer = ref(null);
+
+const loadingMessages = ref(true);
+const messagesArray = ref([]);
+const error = ref(false);
+
+// Get the messages of the session that exists between the logged in user and the user for which the window is opened. We don't need to apply any extensive filters on the fetching messages as we are already storing messages with a session id which is their base origin
+
+// The strategy I am applying here is first fetch the messages through a normal fetch request and set them up in the messagesArray.
+async function getMessages() {
+  const { data, error } = await supabase
+    .from("messages")
+    .select("message, receiver_id, sender_id")
+    .eq("session_id", userObject.sessionID);
+
+  if (error == null) {
+    loadingMessages.value = false;
+    messagesArray.value = data;
+  } else {
+    error.value = true;
+  }
+}
+
+onMounted(() => {
+  getMessages();
+  // Setting up the subscription
+  supabase
+    .channel("any")
+    .on(
+      "postgres_changes",
+      { event: "*", schema: "public", table: "messages" },
+      (payload) => {
+        console.log("Change received!", payload);
+        // Adding the message to the existing array of messages
+        messagesArray.value.push(payload.new);
+      }
+    )
+    .subscribe();
+});
+
+// To keep the scroll position at bottom
+onMounted(() => {
+  chatContainer.value.scrollTop = chatContainer.value.scrollHeight;
+});
+// When a new message appears
+onUpdated(() => {
+  chatContainer.value.scrollTop = chatContainer.value.scrollHeight;
+});
 </script>
 
 <template>
   <div
+    ref="chatContainer"
     class="h-full p-2 flex flex-col gap-2 bg-transparent backdrop-blur-xl overflow-scroll"
+    style="scrollbar-width: none"
   >
+    <!-- Error Component -->
+    <div v-if="error" class="p-4 text-sm text-white bg-gray-800 rounded-lg">
+      <p class="text-center">
+        An error has occurred while fetching the resources.
+      </p>
+    </div>
+
+    <!-- Loading Component -->
+    <div
+      v-if="loadingMessages"
+      class="mt-auto flex items-center justify-center"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="32"
+        height="32"
+        viewBox="0 0 24 24"
+      >
+        <circle cx="12" cy="12" r="0" fill="currentColor">
+          <animate
+            id="svgSpinnersPulse20"
+            fill="freeze"
+            attributeName="r"
+            begin="0;svgSpinnersPulse21.begin+0.6s"
+            calcMode="spline"
+            dur="1.2s"
+            keySplines=".52,.6,.25,.99"
+            values="0;11"
+          />
+          <animate
+            fill="freeze"
+            attributeName="opacity"
+            begin="0;svgSpinnersPulse21.begin+0.6s"
+            calcMode="spline"
+            dur="1.2s"
+            keySplines=".52,.6,.25,.99"
+            values="1;0"
+          />
+        </circle>
+        <circle cx="12" cy="12" r="0" fill="currentColor">
+          <animate
+            id="svgSpinnersPulse21"
+            fill="freeze"
+            attributeName="r"
+            begin="svgSpinnersPulse20.begin+0.6s"
+            calcMode="spline"
+            dur="1.2s"
+            keySplines=".52,.6,.25,.99"
+            values="0;11"
+          />
+          <animate
+            fill="freeze"
+            attributeName="opacity"
+            begin="svgSpinnersPulse20.begin+0.6s"
+            calcMode="spline"
+            dur="1.2s"
+            keySplines=".52,.6,.25,.99"
+            values="1;0"
+          />
+        </circle>
+      </svg>
+    </div>
+
     <!-- Single Component for Message -->
     <div
-      v-for="item in sampleData"
+      v-for="(item, ind) in messagesArray"
       :class="`w-[90%] grid grid-cols-12 px-4 py-2 items-center text-gray-900 text-sm bg-white rounded ${
-        item.sender == 'me' ? 'mr-auto' : 'ml-auto'
+        item.sender_id == user.id ? 'ml-auto' : 'mr-auto'
       }`"
     >
       <div
         :class="`col-span-2 md:col-span-1 h-full flex items-center justify-center + ${
-          item.sender == 'me' ? 'order-0' : 'order-2'
+          item.sender_id == user.id ? 'order-2' : 'order-0'
         }`"
       >
         <div class="w-12 h-12 border-black border-2 rounded-full"></div>
