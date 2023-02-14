@@ -1,10 +1,14 @@
 <script setup>
+useHead({
+  title: 'Chat | Fuzz Chat'
+})
 definePageMeta({
   middleware: "user-auth",
 });
 </script>
 
 <template>
+
   <div
     class="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#0d043e] via-[#080443] to-[#541c38] text-white"
   >

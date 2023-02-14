@@ -1,4 +1,8 @@
 <script setup>
+useHead({
+  title: "Login | Fuzz Chat",
+});
+
 definePageMeta({
   middleware: "user-auth",
 });

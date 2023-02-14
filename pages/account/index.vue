@@ -1,9 +1,13 @@
 <script setup>
+const user = useSupabaseUser();
+
 definePageMeta({
   middleware: "user-auth",
 });
 
-const user = useSupabaseUser();
+useHead({
+  title: `Account | ${user.value.user_metadata.name}`,
+});
 
 console.log();
 </script>

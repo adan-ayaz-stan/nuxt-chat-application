@@ -1,4 +1,7 @@
 <script setup>
+useHead({
+  title: "Search Users | Fuzz Chat",
+});
 definePageMeta({
   middleware: "user-auth",
 });

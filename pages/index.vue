@@ -9,4 +9,8 @@
 
 <style scoped></style>
 
-<script setup></script>
+<script setup>
+useHead({
+  title: "Fuzz Chat",
+});
+</script>

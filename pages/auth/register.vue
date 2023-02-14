@@ -1,4 +1,8 @@
 <script setup lang="ts">
+useHead({
+  title: "Register | Fuzz Chat",
+});
+
 definePageMeta({
   middleware: "user-auth",
 });
