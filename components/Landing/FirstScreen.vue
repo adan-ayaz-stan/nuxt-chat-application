@@ -24,14 +24,15 @@
       <h1
         class="text-[2em] sm:text-[3em] font-bold leading-tight text-center sm:text-left"
       >
-        Chat with random strangers
+        Chat instantly with peers
       </h1>
 
       <p class="w-full xl:w-[70%] text-center sm:text-left text-sm">
-        Fuzz Talk is a great way to meet new people. When you use Fuzz Talk, you
-        get paired with another person on the same network to talk one on one.
-        If you prefer, you can use the interests option to get paired with the
-        same people that have the same interests as you.
+        Introducing a revolutionary web application that lets you easily connect
+        and chat with other users on the same network - Fuzz Chat! With Fuzz
+        Chat, you can easily search for other users on the same network and
+        start chatting with them in real-time. Simply enter the username of the
+        user you want to connect with, and you'll be instantly connected.
         <a href="#" class="underline px-2">See More</a>
       </p>
     </div>
