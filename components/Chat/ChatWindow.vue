@@ -3,7 +3,7 @@ const { userObject, closeChat } = defineProps(["userObject", "closeChat"]);
 </script>
 
 <template>
-  <div class="h-full flex flex-col">
+  <div class="h-screen md:h-full flex flex-col">
     <!-- Top Bar -->
     <div
       class="px-2 py-3 flex flex-row items-center gap-3 text-black bg-white rounded-tr-[1.3em]"

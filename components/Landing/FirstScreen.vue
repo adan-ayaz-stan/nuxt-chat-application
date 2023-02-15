@@ -37,12 +37,12 @@
     </div>
 
     <div
-      class="p-6 bg-gradient-to-br from-[#080441] to-black shadow-xl rounded-xl"
+      class="max-h-[300px] md:max-h-fit p-6 bg-gradient-to-br from-[#080441] to-black shadow-xl rounded-xl"
     >
       <img
         src="https://images.pexels.com/photos/209151/pexels-photo-209151.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
         alt="person-using-laptop"
-        class="h-full md:object-cover rounded-xl"
+        class="h-full object-cover md:object-cover rounded-xl"
       />
     </div>
   </div>

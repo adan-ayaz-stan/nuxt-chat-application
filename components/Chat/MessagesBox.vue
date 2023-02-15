@@ -128,17 +128,17 @@ onUpdated(() => {
     <div
       v-for="(item, ind) in messagesArray"
       :key="ind + 786"
-      :class="`w-[90%] grid grid-cols-12 px-4 py-2 items-center text-gray-900 text-sm bg-white rounded ${
+      :class="`w-fit flex flex-row gap-2 px-2 md:px-4 py-1 items-center text-gray-900 text-sm bg-white rounded-xl ${
         item.sender_id == user.id ? 'ml-auto' : 'mr-auto'
-      }`"
+      } ${item.sender_id == user.id ? 'justify-end' : 'justify-start'}`"
     >
       <div
-        :class="`col-span-2 md:col-span-1 h-full flex items-center justify-center + ${
+        :class="`h-full flex items-center justify-center + ${
           item.sender_id == user.id ? 'order-2' : 'order-0'
         }`"
       >
         <div
-          class="w-12 h-12 flex items-center justify-center border-black border-2 rounded-full"
+          class="w-8 h-8 flex items-center justify-center border-black border-2 rounded-full"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -153,7 +153,7 @@ onUpdated(() => {
           </svg>
         </div>
       </div>
-      <p class="col-span-10 md:col-span-11 order-1 font-medium text-gray-800">
+      <p class="order-1 font-medium text-gray-800">
         {{ item.message }}
       </p>
     </div>
