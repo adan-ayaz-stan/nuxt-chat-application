@@ -35,7 +35,12 @@ onMounted(() => {
     .channel("any")
     .on(
       "postgres_changes",
-      { event: "*", schema: "public", table: "messages" },
+      {
+        event: "*",
+        schema: "public",
+        table: "messages",
+        filter: `new.session_id = ${userObject.sessionID}`,
+      },
       (payload) => {
         console.log("Change received!", payload);
         // Adding the message to the existing array of messages

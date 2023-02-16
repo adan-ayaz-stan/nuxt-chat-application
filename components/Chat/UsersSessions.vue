@@ -10,7 +10,8 @@ async function getConversationSessions() {
     .from("conversation_sessions")
     .select(
       "id, user1_id, user2_id, users AS usersU1:user1_id(name), users AS usersU2:user2_id(name)"
-    );
+    )
+    .or(`user1_id.eq.${user.value.id}, user2_id.eq.${user.value.id}`);
 
   const formatData = data?.map((ele: UserConversationSession, ind: number) => {
     const sessionID = ele.id;
@@ -60,7 +61,7 @@ function navigateBack() {
     class="flex flex-row h-full rounded-l-[1.3em] border-gray-300 border-l-4"
   >
     <!-- CHAT SELECTION PORTION -->
-    <div class="relative max-w-full md:max-w-sm h-full md:border-r-2">
+    <div class="relative w-full max-w-full md:max-w-sm h-full md:border-r-2">
       <!-- Top Bar -->
       <div class="flex flex-row justify-between items-center px-4 pt-3 pb-1">
         <!-- Back Icon -->
