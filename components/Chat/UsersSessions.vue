@@ -42,13 +42,15 @@ const sampleData = [
   },
 ];
 
-function openChatWindowForSpecificUser(userObject) {
-  isWindowOpen.value = true;
-  selectedUser.value = userObject;
-}
-
 function closeChatWindow() {
   selectedUser.value = "";
+}
+function openChatWindowForSpecificUser(userObject) {
+  selectedUser.value = "";
+  isWindowOpen.value = true;
+  setTimeout(() => {
+    selectedUser.value = userObject;
+  }, 50);
 }
 
 function navigateBack() {

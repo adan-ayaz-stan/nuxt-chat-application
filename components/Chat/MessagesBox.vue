@@ -39,10 +39,9 @@ onMounted(() => {
         event: "*",
         schema: "public",
         table: "messages",
-        filter: `new.session_id = ${userObject.sessionID}`,
+        filter: `session_id=eq.${userObject.sessionID}`,
       },
       (payload) => {
-        console.log("Change received!", payload);
         // Adding the message to the existing array of messages
         messagesArray.value.push(payload.new);
       }
