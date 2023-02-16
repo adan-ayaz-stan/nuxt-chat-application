@@ -48,6 +48,7 @@ async function submitHandler(event) {
       <input
         v-model="inputMessage"
         name="chat-message"
+        autocomplete="off"
         class="col-span-10 px-4 py-3 text-black text-sm bg-white bg-opacity-90 focus-within:border-gray-500 outline-none rounded-xl"
       />
 

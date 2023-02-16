@@ -17,7 +17,7 @@ async function logout() {
   <button
     type="button"
     @click="isSidebarOpen = true"
-    class="inline-flex items-center p-2 mt-2 ml-3 text-sm text-gray-500 rounded-lg hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+    class="inline-flex items-center p-2 mt-2 ml-3 text-sm text-gray-100 rounded-lg hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-200"
   >
     <span class="sr-only">Open sidebar</span>
     <svg
@@ -60,7 +60,7 @@ async function logout() {
           ></path>
         </svg>
         <span
-          class="self-center text-xl font-semibold whitespace-nowrap dark:text-white"
+          class="self-center text-xl font-semibold whitespace-nowrap text-white"
           >Fuzz Chat</span
         >
 
@@ -87,11 +87,11 @@ async function logout() {
             <NuxtLink
               to="/users"
               href="#"
-              class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
+              class="flex items-center p-2 text-base font-normal text-gray-100 rounded-lg hover:bg-gray-700"
             >
               <svg
                 aria-hidden="true"
-                class="w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                class="w-6 h-6 text-gray-100 transition duration-75 group-hover:text-gray-100"
                 fill="currentColor"
                 viewBox="0 0 20 20"
                 xmlns="http://www.w3.org/2000/svg"
@@ -105,11 +105,11 @@ async function logout() {
           <div>
             <NuxtLink
               to="/chat"
-              class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
+              class="flex items-center p-2 text-base font-normal text-gray-100 rounded-lg hover:bg-gray-700"
             >
               <svg
                 aria-hidden="true"
-                class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                class="flex-shrink-0 w-6 h-6 text-gray-100 transition duration-75 group-hover:text-gray-100"
                 fill="currentColor"
                 viewBox="0 0 20 20"
                 xmlns="http://www.w3.org/2000/svg"
@@ -123,7 +123,7 @@ async function logout() {
               </svg>
               <span class="flex-1 ml-3 whitespace-nowrap">Inbox</span>
               <span
-                class="inline-flex items-center justify-center w-3 h-3 p-3 ml-3 text-sm font-medium text-blue-800 bg-blue-100 rounded-full dark:bg-blue-900 dark:text-blue-300"
+                class="inline-flex items-center justify-center w-3 h-3 p-3 ml-3 text-sm font-medium text-blue-800 bg-blue-100 rounded-full"
                 >3</span
               >
             </NuxtLink>
@@ -133,14 +133,14 @@ async function logout() {
           <div class="mt-auto">
             <a
               href="#"
-              class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
+              class="flex items-center p-2 text-base font-normal text-gray-100 rounded-lg hover:bg-gray-700"
               :style="{
                 background: currentRoute == '/account' ? '#55507c55' : '',
               }"
             >
               <svg
                 aria-hidden="true"
-                class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                class="flex-shrink-0 w-6 h-6 text-gray-100 transition duration-75 group-hover:text-gray-100"
                 fill="currentColor"
                 viewBox="0 0 20 20"
                 xmlns="http://www.w3.org/2000/svg"
@@ -157,11 +157,11 @@ async function logout() {
           <div>
             <div
               @click="logout"
-              class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer"
+              class="flex items-center p-2 text-base font-normal text-gray-100 hover:bg-gray-700 rounded-lg cursor-pointer"
             >
               <svg
                 aria-hidden="true"
-                class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                class="flex-shrink-0 w-6 h-6 text-gray-100 transition duration-75 dark:text-gray-400 group-hover:text-gray-100 dark:group-hover:text-white"
                 fill="currentColor"
                 viewBox="0 0 20 20"
                 xmlns="http://www.w3.org/2000/svg"

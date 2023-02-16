@@ -4,6 +4,10 @@ import { UserConversationSession } from "~~/types/ConversationSessions";
 const supabase = useSupabaseClient();
 const user = useSupabaseUser();
 
+const chat_conversations = ref([]);
+
+const loading = ref(true);
+
 async function getConversationSessions() {
   // Getting Sessions || This took me a lot of time to get it right, you better be grateful for this
   const { data, error } = await supabase
@@ -25,11 +29,10 @@ async function getConversationSessions() {
     return { sessionID, otherUserID, otherUserName };
   });
 
-  return formatData;
+  // Set loading to false
+  loading.value = false;
+  chat_conversations.value = formatData;
 }
-
-const samplData = await getConversationSessions().then((ele) => ele);
-console.log(samplData);
 
 const isWindowOpen = ref(false);
 const selectedUser = ref("");
@@ -50,12 +53,22 @@ function openChatWindowForSpecificUser(userObject) {
   isWindowOpen.value = true;
   setTimeout(() => {
     selectedUser.value = userObject;
-  }, 50);
+  }, 10);
 }
 
 function navigateBack() {
   window.history.back();
 }
+
+function refreshConversations() {
+  chat_conversations.value = [];
+  loading.value = true;
+  getConversationSessions();
+}
+
+onMounted(() => {
+  getConversationSessions();
+});
 </script>
 
 <template>
@@ -91,6 +104,7 @@ function navigateBack() {
 
         <!-- Refresh Chats Icon -->
         <div
+          @click="refreshConversations"
           title="Refresh"
           class="p-1 text-gray-100 rounded-full hover:bg-gray-600 cursor-pointer"
         >
@@ -109,62 +123,128 @@ function navigateBack() {
       </div>
 
       <div class="p-3 grid grid-cols-1 auto-rows-auto gap-3">
-        <!-- Single Component -->
+        <!-- Loading -->
 
-        <div
-          v-for="(item, ind) in samplData"
-          :key="ind + 71"
-          @click="openChatWindowForSpecificUser(item)"
-          class="h-fit grid grid-cols-5 items-center gap-3 p-4 bg-white text-black rounded-lg cursor-pointer"
-        >
+        <Transition appear>
           <div
-            class="col-span-1 h-full flex items-center justify-center border-2 border-black rounded-full"
+            v-if="loading"
+            class="w-full flex flex-col items-center justify-center text-center"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              width="54"
-              height="54"
+              width="32"
+              height="32"
               viewBox="0 0 24 24"
             >
-              <path
-                fill="currentColor"
-                d="M12 19.2c-2.5 0-4.71-1.28-6-3.2c.03-2 4-3.1 6-3.1s5.97 1.1 6 3.1a7.232 7.232 0 0 1-6 3.2M12 5a3 3 0 0 1 3 3a3 3 0 0 1-3 3a3 3 0 0 1-3-3a3 3 0 0 1 3-3m0-3A10 10 0 0 0 2 12a10 10 0 0 0 10 10a10 10 0 0 0 10-10c0-5.53-4.5-10-10-10Z"
-              />
+              <defs>
+                <filter id="svgSpinnersGooeyBalls20">
+                  <feGaussianBlur
+                    in="SourceGraphic"
+                    result="y"
+                    stdDeviation="1"
+                  />
+                  <feColorMatrix
+                    in="y"
+                    result="z"
+                    values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 18 -7"
+                  />
+                  <feBlend in="SourceGraphic" in2="z" />
+                </filter>
+              </defs>
+              <g filter="url(#svgSpinnersGooeyBalls20)">
+                <circle cx="5" cy="12" r="4" fill="currentColor">
+                  <animate
+                    attributeName="cx"
+                    calcMode="spline"
+                    dur="2s"
+                    keySplines=".36,.62,.43,.99;.79,0,.58,.57"
+                    repeatCount="indefinite"
+                    values="5;8;5"
+                  />
+                </circle>
+                <circle cx="19" cy="12" r="4" fill="currentColor">
+                  <animate
+                    attributeName="cx"
+                    calcMode="spline"
+                    dur="2s"
+                    keySplines=".36,.62,.43,.99;.79,0,.58,.57"
+                    repeatCount="indefinite"
+                    values="19;16;19"
+                  />
+                </circle>
+                <animateTransform
+                  attributeName="transform"
+                  dur="0.75s"
+                  repeatCount="indefinite"
+                  type="rotate"
+                  values="0 12 12;360 12 12"
+                />
+              </g>
             </svg>
           </div>
-          <div class="col-span-3 relative flex flex-col gap-1 py-1">
-            <p>{{ item.otherUserName }}</p>
-            <p class="text-sm truncate text-gray-600">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum
-              iusto repellendus recusandae fugiat, voluptates sequi. Natus at
-              doloribus sint, accusamus soluta impedit quis vero repudiandae
-              corporis fugit tempora eligendi! Dolorum?
-            </p>
-          </div>
+        </Transition>
 
-          <div class="ml-auto text-gray-400 hover:text-gray-700 cursor-pointer">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
+        <!-- Single Component -->
+        <TransitionGroup name="list" appear>
+          <div
+            v-for="(item, ind) in chat_conversations"
+            :key="ind + 71"
+            @click="openChatWindowForSpecificUser(item)"
+            class="h-fit grid grid-cols-5 items-center gap-3 p-4 bg-white text-black rounded-lg cursor-pointer"
+          >
+            <div
+              class="col-span-1 h-full flex items-center justify-center border-2 border-black rounded-full"
             >
-              <path
-                fill="currentColor"
-                d="M6 14h8v-2H6Zm0-3h12V9H6Zm0-3h12V6H6ZM2 22V4q0-.825.588-1.413Q3.175 2 4 2h16q.825 0 1.413.587Q22 3.175 22 4v12q0 .825-.587 1.413Q20.825 18 20 18H6Z"
-              />
-            </svg>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="54"
+                height="54"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  fill="currentColor"
+                  d="M12 19.2c-2.5 0-4.71-1.28-6-3.2c.03-2 4-3.1 6-3.1s5.97 1.1 6 3.1a7.232 7.232 0 0 1-6 3.2M12 5a3 3 0 0 1 3 3a3 3 0 0 1-3 3a3 3 0 0 1-3-3a3 3 0 0 1 3-3m0-3A10 10 0 0 0 2 12a10 10 0 0 0 10 10a10 10 0 0 0 10-10c0-5.53-4.5-10-10-10Z"
+                />
+              </svg>
+            </div>
+            <div class="col-span-3 relative flex flex-col gap-1 py-1">
+              <p>{{ item.otherUserName }}</p>
+              <p class="text-sm truncate text-gray-600">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum
+                iusto repellendus recusandae fugiat, voluptates sequi. Natus at
+                doloribus sint, accusamus soluta impedit quis vero repudiandae
+                corporis fugit tempora eligendi! Dolorum?
+              </p>
+            </div>
+
+            <div
+              class="ml-auto text-gray-400 hover:text-gray-700 cursor-pointer"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  fill="currentColor"
+                  d="M6 14h8v-2H6Zm0-3h12V9H6Zm0-3h12V6H6ZM2 22V4q0-.825.588-1.413Q3.175 2 4 2h16q.825 0 1.413.587Q22 3.175 22 4v12q0 .825-.587 1.413Q20.825 18 20 18H6Z"
+                />
+              </svg>
+            </div>
           </div>
-        </div>
+        </TransitionGroup>
       </div>
     </div>
 
-    <div
-      v-if="selectedUser != ''"
-      class="w-full h-full absolute md:relative top-0 left-0 md:rounded-r-[1.3em] md:block"
-    >
-      <ChatWindow :userObject="selectedUser" :closeChat="closeChatWindow" />
-    </div>
+    <Transition>
+      <div
+        v-if="selectedUser != ''"
+        class="w-full h-full absolute md:relative top-0 left-0 md:rounded-r-[1.3em] md:block"
+      >
+        <ChatWindow :userObject="selectedUser" :closeChat="closeChatWindow" />
+      </div>
+    </Transition>
 
     <div
       v-if="selectedUser == ''"

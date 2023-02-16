@@ -62,7 +62,7 @@ onUpdated(() => {
 <template>
   <div
     ref="chatContainer"
-    class="h-full p-2 flex flex-col gap-2 bg-transparent backdrop-blur-xl overflow-scroll"
+    class="h-full p-2 flex flex-col gap-2 bg-transparent backdrop-blur-xl overflow-x-auto"
     style="scrollbar-width: none"
   >
     <!-- Error Component -->
