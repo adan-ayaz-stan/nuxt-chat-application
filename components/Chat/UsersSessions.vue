@@ -237,14 +237,12 @@ onMounted(() => {
       </div>
     </div>
 
-    <Transition>
-      <div
-        v-if="selectedUser != ''"
-        class="w-full h-full absolute md:relative top-0 left-0 md:rounded-r-[1.3em] md:block"
-      >
-        <ChatWindow :userObject="selectedUser" :closeChat="closeChatWindow" />
-      </div>
-    </Transition>
+    <div
+      v-if="selectedUser != ''"
+      class="w-full h-full absolute md:relative top-0 left-0 md:rounded-r-[1.3em] md:block"
+    >
+      <ChatWindow :userObject="selectedUser" :closeChat="closeChatWindow" />
+    </div>
 
     <div
       v-if="selectedUser == ''"
