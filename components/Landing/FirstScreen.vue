@@ -1,6 +1,10 @@
+<script setup>
+import keyboardImage from "@/assets/images/keyboard.png";
+</script>
+
 <template>
   <div
-    class="grid grid-cols-1 md:grid-cols-2 auto-rows-auto gap-6 md:gap-2 p-4 sm:p-12 mt-6 md:mt-0"
+    class="grid grid-cols-1 md:grid-cols-2 auto-rows-auto gap-6 md:gap-2 p-4 sm:p-12 pr-0 pb-0 sm:pr-0 sm:pb-0 mt-6 md:mt-0"
   >
     <div
       class="flex flex-col justify-center items-center sm:items-start gap-2 px-4 sm:px-12"
@@ -37,13 +41,11 @@
       </p>
     </div>
 
-    <div
-      class="max-h-[300px] md:max-h-fit p-6 bg-gradient-to-br from-[#080441] to-black shadow-xl rounded-xl"
-    >
+    <div class="max-h-[300px] md:max-h-fit rounded-xl">
       <img
-        src="https://images.pexels.com/photos/209151/pexels-photo-209151.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+        :src="keyboardImage"
         alt="person-using-laptop"
-        class="h-full object-cover md:object-cover rounded-xl"
+        class="h-full object-cover md:object-cover rounded-xl opacity-40 mix-blend-multiply"
       />
     </div>
   </div>
