@@ -1,10 +1,8 @@
-<script setup>
-import keyboardImage from "@/assets/images/keyboard.png";
-</script>
+<script setup></script>
 
 <template>
   <div
-    class="grid grid-cols-1 md:grid-cols-2 auto-rows-auto gap-6 md:gap-2 p-4 sm:p-12 pr-0 pb-0 sm:pr-0 sm:pb-0 mt-6 md:mt-0"
+    class="grid grid-cols-1 md:grid-cols-2 auto-rows-auto gap-4 md:gap-2 p-4 sm:p-12 pr-0 pb-0 sm:pr-0 sm:pb-0 mt-6 md:mt-0"
   >
     <div
       class="flex flex-col justify-center items-center sm:items-start gap-2 px-4 sm:px-12"
@@ -41,12 +39,6 @@ import keyboardImage from "@/assets/images/keyboard.png";
       </p>
     </div>
 
-    <div class="max-h-[300px] md:max-h-fit rounded-xl">
-      <img
-        :src="keyboardImage"
-        alt="person-using-laptop"
-        class="h-full object-cover md:object-cover rounded-xl opacity-40 mix-blend-multiply"
-      />
-    </div>
+    <div class="max-h-[300px] md:max-h-fit rounded-xl"></div>
   </div>
 </template>
