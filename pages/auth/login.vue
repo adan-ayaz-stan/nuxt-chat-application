@@ -119,6 +119,12 @@ const submitHandler = async (values) => {
           }"
         />
 
+        <div class="w-full p-3 bg-gray-800 rounded">
+          <h2 class="text-center font-bold">Dummy Creds</h2>
+          <p class="text-sm">Email: bidow33934@etondy.com</p>
+          <p class="text-sm">Password: 12345678</p>
+        </div>
+
         <p v-if="message != ''" class="text-sm text-red-500">{{ message }}</p>
 
         <NuxtLink to="/auth/register" class="text-sm text-center underline my-2"

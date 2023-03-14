@@ -103,9 +103,9 @@ const submitHandler = async (values: {
             type="password"
             name="password"
             label="Password"
-            validation="required|length:6|matches:/[a-zA-Z]/"
+            validation="required|length:6"
             :validation-messages="{
-              matches: 'Please be sensible with your password.',
+              matches: 'Password should atleast be of minimum 6 characters.',
             }"
             placeholder="Your password"
             help="Choose a password"
@@ -134,7 +134,7 @@ const submitHandler = async (values: {
       </FormKit>
       <div v-if="submitted">
         <h2>Sign up successful!</h2>
-        <p class="text-sm text-gray-600">
+        <p class="text-sm text-gray-300">
           Check your email for confirmation link.
         </p>
       </div>
